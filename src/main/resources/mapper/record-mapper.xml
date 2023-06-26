@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scu.freight.dao.RecordMapper">
+    <select id="selectRows" resultType="Record">
+        select * from record where 1=1
+        <if test="vehicleId != null">
+            and vehicle_id = #{vehicleId}
+        </if>
+        <if test="driverName != null">
+            and driver_name = #{driverName}
+        </if>
+        <if test="freightId != null">
+            and freight_id = #{freightId}
+        </if>
+        <if test="recordId != null">
+            and record_id = #{recordId}
+        </if>
+        limit #{startNo},#{pageSize}
+    </select>
+
+    <select id="countRows" resultType="int">
+        select count(1) from record where 1=1
+        <if test="vehicleId != null">
+            and vehicle_id = #{vehicleId}
+        </if>
+        <if test="driverName != null">
+            and driver_name = #{driverName}
+        </if>
+        <if test="freightId != null">
+            and freight_id = #{freightId}
+        </if>
+        <if test="recordId != null">
+            and record_id = #{recordId}
+        </if>
+    </select>
+
+</mapper>

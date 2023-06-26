@@ -6,15 +6,25 @@ package com.scu.freight.entity;
  * @create 2023/6/24 18:31
  */
 public class User{
-    private long userId;
+    private Long userId;
     private String username;
     private String password;
-    private int userRole;
+    private Integer userRole;
 
     public User(String username, String password, int userRole) {
         this.username = username;
         this.password = password;
         this.userRole = userRole;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
+                '}';
     }
 
     public User() {

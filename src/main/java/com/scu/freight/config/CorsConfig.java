@@ -18,13 +18,18 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:4399");
         configuration.setAllowCredentials(true);
-        configuration.addAllowedMethod("*");
+        configuration.addAllowedMethod("OPTIONS");
+        configuration.addAllowedMethod("HEAD");
+        configuration.addAllowedMethod("GET");
+        configuration.addAllowedMethod("PUT");
+        configuration.addAllowedMethod("POST");
+        configuration.addAllowedMethod("DELETE");
+        configuration.addAllowedMethod("PATCH");
         configuration.addAllowedHeader("*");
 
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**",configuration);
 
-        CorsFilter corsFilter = new org.springframework.web.filter.CorsFilter(urlBasedCorsConfigurationSource);
-        return corsFilter;
+        return new CorsFilter(urlBasedCorsConfigurationSource);
     }
 }
