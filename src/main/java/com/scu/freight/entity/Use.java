@@ -5,5 +5,5 @@ package com.scu.freight.entity;
  * @description 功能描述
  * @create 2023/6/26 10:08
  */
-public class UseRecord {
+public class Use {
 }

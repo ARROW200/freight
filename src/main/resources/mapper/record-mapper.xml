@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scu.freight.dao.RecordMapper">
     <select id="selectRows" resultType="Record">
-        select * from record where 1=1
+        select * from record where status in (0, 1)
         <if test="vehicleId != null">
             and vehicle_id = #{vehicleId}
         </if>
@@ -17,11 +17,12 @@
         <if test="recordId != null">
             and record_id = #{recordId}
         </if>
+        order by record_id desc
         limit #{startNo},#{pageSize}
     </select>
 
     <select id="countRows" resultType="int">
-        select count(1) from record where 1=1
+        select count(1) from record where status in (0, 1)
         <if test="vehicleId != null">
             and vehicle_id = #{vehicleId}
         </if>
@@ -35,5 +36,37 @@
             and record_id = #{recordId}
         </if>
     </select>
+
+    <insert id="insertRecord" parameterType="Record" keyProperty="recordId">
+        insert into record
+        (vehicle_id,driver_id,driver_name,freight_id,start_address,end_address,start_time,status
+        <if test="endTime != null">
+            ,end_time
+        </if>
+        )
+        values
+        (#{vehicleId},#{driverId},#{driverName},#{freightId},#{startAddress},#{endAddress},#{startTime},#{status}
+        <if test="endTime != null">
+            ,#{endTime}
+        </if>
+        )
+    </insert>
+
+    <select id="selectRecordById" resultType="Record">
+        select * from record
+        where record_id = #{recordId} and status in (0, 1)
+    </select>
+
+    <update id="updateRecord" parameterType="Record">
+        update record set vehicle_id = #{vehicleId}, driver_id = #{driverId},
+        driver_name = #{driverName}, freight_id = #{freightId}, start_address = #{startAddress},
+        end_address = #{endAddress}, start_time = #{startTime}, end_time = #{endTime}, status = #{status}
+        where record_id = #{recordId}
+    </update>
+
+    <update id="setRecordStatus">
+        update record set status = #{status}
+        where record_id = #{recordId}
+    </update>
 
 </mapper>
