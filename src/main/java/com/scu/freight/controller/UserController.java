@@ -1,8 +1,10 @@
 package com.scu.freight.controller;
 
+import com.scu.freight.entity.Record;
 import com.scu.freight.entity.User;
 import com.scu.freight.service.UserService;
 import com.scu.freight.vo.Result;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +49,51 @@ public class UserController {
     public Result<Map<String,Object>> logout(@RequestHeader("X-Token") String token){
         userService.logout(token);
         return Result.success();
+    }
+
+    @GetMapping("/list")
+    public Result<Map<String,Object>> getUserList(@RequestParam(required = false) Integer userId, @RequestParam(required = false) String username, @RequestParam(required = false) Integer userRole, Integer pageNo, Integer pageSize){
+        if (StringUtils.isBlank(username)){
+            username = null;
+        }
+        Map<String,Object> data = userService.getUserList(userId,username,userRole,pageNo,pageSize);
+        return Result.success(data);
+    }
+
+    @PostMapping("/add")
+    public Result<?> addUser(@RequestBody User user){
+        int i = userService.addUser(user);
+        if (i == 0){
+            return Result.fail(507,"添加用户失败");
+        }
+        return Result.success("添加用户成功");
+    }
+
+    @PutMapping("/update")
+    public Result<?> updateUser(@RequestBody User user){
+        int i = userService.updateUser(user);
+        if (i == 0){
+            return Result.fail(507,"修改用户失败");
+        }
+        return Result.success("修改用户成功");
+    }
+
+    @GetMapping("/{userId}")
+    public Result<User> getRecordById(@PathVariable int userId){
+        User user = userService.getUserById(userId);
+        if (user == null){
+            return Result.fail(404,"找不到该用户");
+        }
+        return Result.success(user);
+    }
+
+    @DeleteMapping("/{userId}")
+    public Result<?> deleteUserById(@PathVariable int userId){
+        int i = userService.removeUserById(userId);
+        if (i == 0){
+            return Result.fail(507,"删除用户失败");
+        }
+        return Result.success("删除用户成功");
     }
 
 }

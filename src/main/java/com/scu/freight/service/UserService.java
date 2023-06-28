@@ -1,6 +1,7 @@
 package com.scu.freight.service;
 
 import com.scu.freight.dao.UserMapper;
+import com.scu.freight.entity.Record;
 import com.scu.freight.entity.User;
 import com.scu.freight.util.FreightUtil;
 import com.scu.freight.util.RedisKeyUtil;
@@ -9,6 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -53,5 +55,33 @@ public class UserService {
 
     public void logout(String token) {
         redisTemplate.delete(token);
+    }
+
+    public Map<String, Object> getUserList(Integer userId, String username, Integer userRole, Integer pageNo, Integer pageSize) {
+        int total = userMapper.countRows(userId,username,userRole);
+        int startNo = (pageNo-1)*pageSize;
+        List<Record> rows = userMapper.selectRows(userId,username,userRole,startNo,pageSize);
+        Map<String,Object> data = new HashMap<>();
+        data.put("total", total);
+        data.put("rows", rows);
+        return data;
+    }
+
+    public int addUser(User user) {
+        user.setPassword(FreightUtil.md5(user.getPassword()));
+        return userMapper.insertUser(user);
+    }
+
+    public int updateUser(User user) {
+        user.setPassword(FreightUtil.md5(user.getPassword()));
+        return userMapper.updateUser(user);
+    }
+
+    public User getUserById(int userId) {
+        return userMapper.selectUserById(userId);
+    }
+
+    public int removeUserById(int userId) {
+        return userMapper.setUserRole(userId,0);
     }
 }

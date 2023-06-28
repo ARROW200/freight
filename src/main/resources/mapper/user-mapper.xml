@@ -3,7 +3,63 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scu.freight.dao.UserMapper">
+    <sql id="selectFields">
+        user_id,username,user_role
+    </sql>
+
     <select id="selectUserByUsernameAndPassword" resultType="User">
         select * from user where username = #{username} and password = #{password}
     </select>
+
+    <select id="selectRows" resultType="User">
+        select <include refid="selectFields"></include>
+        from user where user_role > 0
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="username != null">
+            and username = #{username}
+        </if>
+        <if test="userRole != null">
+            and user_role = #{userRole}
+        </if>
+        order by user_id
+        limit #{startNo},#{pageSize}
+    </select>
+
+    <select id="countRows" resultType="int">
+        select count(1) from user where user_role > 0
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="username != null">
+            and username = #{username}
+        </if>
+        <if test="userRole != null">
+            and user_role = #{userRole}
+        </if>
+    </select>
+
+    <insert id="insertUser" parameterType="User" keyProperty="userId">
+        insert into user(username,password,user_role)
+        values(#{username},#{password},#{userRole})
+    </insert>
+
+    <select id="selectUserById" resultType="User">
+        select <include refid="selectFields"></include>
+        from user
+        where user_id = #{userId} and user_role > 0
+    </select>
+
+    <update id="setUserRole">
+        update user set user_role = #{userRole}
+        where user_id = #{userId}
+    </update>
+
+    <insert id="updateUser" parameterType="User">
+        update user set username = #{username},
+        password = #{password}, user_role = #{userRole}
+        where user_id = #{userId}
+    </insert>
+
 </mapper>
