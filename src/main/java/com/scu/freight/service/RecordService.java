@@ -21,13 +21,13 @@ public class RecordService {
     @Autowired
     private RecordMapper recordMapper;
 
-//    @Autowired
-//    private StaffMapper staffMapper;
+    @Autowired
+    private StaffMapper staffMapper;
 
-    public Map<String, Object> getRecordList(String vehicleId, String driverName, Integer freightId, Integer recordId, int pageNo, int pageSize) {
-        int total = recordMapper.countRows(vehicleId,driverName,freightId,recordId);
+    public Map<String, Object> getRecordList(String vehicleId, String driverName, Integer freightId, Integer recordId, Integer taskId,int pageNo, int pageSize) {
+        int total = recordMapper.countRows(vehicleId,driverName,freightId,recordId,taskId);
         int startNo = (pageNo-1)*pageSize;
-        List<Record> rows = recordMapper.selectRows(vehicleId,driverName,freightId,recordId,startNo,pageSize);
+        List<Record> rows = recordMapper.selectRows(vehicleId,driverName,freightId,recordId,taskId,startNo,pageSize);
         Map<String,Object> data = new HashMap<>();
         data.put("total", total);
         data.put("rows", rows);
@@ -35,7 +35,11 @@ public class RecordService {
     }
 
     public int addRecord(Record record) {
-        record.setDriverName("A");
+        String driverName = staffMapper.selectStaffById(record.getDriverId()).getStaffName();
+        if (driverName == null){
+            return 0;
+        }
+        record.setDriverName(driverName);
         return recordMapper.insertRecord(record);
     }
 
@@ -44,11 +48,15 @@ public class RecordService {
     }
 
     public int updateRecord(Record record) {
-        record.setDriverName("A");
+        String driverName = staffMapper.selectStaffById(record.getDriverId()).getStaffName();
+        if (driverName == null){
+            return 0;
+        }
+        record.setDriverName(driverName);
         return recordMapper.updateRecord(record);
     }
 
     public int removeRecordById(int recordId) {
-        return recordMapper.setRecordStatus(recordId, 2);
+        return recordMapper.setRecordStatus(recordId, 0);
     }
 }

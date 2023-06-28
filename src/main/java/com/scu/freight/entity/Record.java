@@ -17,6 +17,8 @@ public class Record {
     private Timestamp endTime;
     private String startAddress;
 
+    private int taskId;
+
     @Override
     public String toString() {
         return "Record{" +
@@ -28,6 +30,7 @@ public class Record {
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", startAddress='" + startAddress + '\'' +
+                ", taskId=" + taskId +
                 ", endAddress='" + endAddress + '\'' +
                 ", status=" + status +
                 '}';
@@ -36,7 +39,8 @@ public class Record {
     public Record() {
     }
 
-    public Record(String vehicleId, int driverId, String driverName, int freightId, Timestamp startTime, Timestamp endTime, String startAddress, String endAddress, int status) {
+    public Record(int recordId, String vehicleId, int driverId, String driverName, int freightId, Timestamp startTime, Timestamp endTime, String startAddress, int taskId, String endAddress, int status) {
+        this.recordId = recordId;
         this.vehicleId = vehicleId;
         this.driverId = driverId;
         this.driverName = driverName;
@@ -44,8 +48,17 @@ public class Record {
         this.startTime = startTime;
         this.endTime = endTime;
         this.startAddress = startAddress;
+        this.taskId = taskId;
         this.endAddress = endAddress;
         this.status = status;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 
     private String endAddress;

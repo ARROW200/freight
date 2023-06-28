@@ -13,9 +13,9 @@ import java.util.List;
  */
 @Mapper
 public interface RecordMapper {
-    int countRows(String vehicleId, String driverName, Integer freightId, Integer recordId);
+    int countRows(String vehicleId, String driverName, Integer freightId, Integer recordId, Integer taskId);
 
-    List<Record> selectRows(String vehicleId, String driverName, Integer freightId, Integer recordId, int startNo, int pageSize);
+    List<Record> selectRows(String vehicleId, String driverName, Integer freightId, Integer recordId, Integer taskId,int startNo, int pageSize);
 
     int insertRecord(Record record);
 

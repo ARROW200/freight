@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -24,14 +23,14 @@ public class RecordController {
     private RecordService recordService;
 
     @GetMapping("/list")
-    public Result<Map<String,Object>> getRecordList(@RequestParam(required = false) String vehicleId, @RequestParam(required = false) String driverName, @RequestParam(required = false) Integer freightId, @RequestParam(required = false) Integer recordId, Integer pageNo, Integer pageSize){
+    public Result<Map<String,Object>> getRecordList(@RequestParam(required = false) String vehicleId, @RequestParam(required = false) String driverName, @RequestParam(required = false) Integer freightId, @RequestParam(required = false) Integer recordId, @RequestParam(required = false) Integer taskId, Integer pageNo, Integer pageSize){
         if (StringUtils.isBlank(vehicleId)){
             vehicleId = null;
         }
         if (StringUtils.isBlank(driverName)){
             driverName = null;
         }
-        Map<String,Object> data = recordService.getRecordList(vehicleId,driverName,freightId,recordId,pageNo,pageSize);
+        Map<String,Object> data = recordService.getRecordList(vehicleId,driverName,freightId,recordId,taskId,pageNo,pageSize);
         return Result.success(data);
     }
 

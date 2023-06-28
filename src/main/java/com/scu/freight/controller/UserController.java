@@ -73,9 +73,9 @@ public class UserController {
     public Result<?> updateUser(@RequestBody User user){
         int i = userService.updateUser(user);
         if (i == 0){
-            return Result.fail(507,"修改用户失败");
+            return Result.fail(507,"修改用户信息失败");
         }
-        return Result.success("修改用户成功");
+        return Result.success("修改用户信息成功");
     }
 
     @GetMapping("/{userId}")
