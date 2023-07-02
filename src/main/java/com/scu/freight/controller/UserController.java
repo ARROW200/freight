@@ -1,6 +1,5 @@
 package com.scu.freight.controller;
 
-import com.scu.freight.entity.Record;
 import com.scu.freight.entity.User;
 import com.scu.freight.service.UserService;
 import com.scu.freight.vo.Result;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scu.freight.dao.VehicleMapper">
+  <select id="selectRows" resultType="Vehicle">
+    select * from vehicle where status > 0
+    <if test="vehicleId != null">
+      and vehicle_id = #{vehicleId}
+    </if>
+    <if test="type != null">
+      and type = #{type}
+    </if>
+    <if test="load != null">
+      and `load` = #{load}
+    </if>
+    <if test="status != null">
+      and status = #{status}
+    </if>
+    order by vehicle_id
+    limit #{startNo},#{pageSize}
+  </select>
+
+  <select id="countRows" resultType="int">
+    select count(1) from vehicle where status > 0
+    <if test="vehicleId != null">
+      and vehicle_id = #{vehicleId}
+    </if>
+    <if test="type != null">
+      and type = #{type}
+    </if>
+    <if test="load != null">
+      and `load` = #{load}
+    </if>
+    <if test="status != null">
+      and status = #{status}
+    </if>
+  </select>
+
+  <insert id="insertVehicle" parameterType="Vehicle">
+    insert into vehicle
+    (vehicle_id,type,`load`,status)
+    values(#{vehicleId},#{type},#{load},#{status})
+  </insert>
+
+  <select id="selectVehicleById" resultType="Vehicle">
+    select * from vehicle
+    where vehicle_id = #{vehicleId} and status > 0
+  </select>
+
+  <update id="updateVehicle" parameterType="Vehicle">
+    update vehicle set
+    type = #{type},`load` = #{load},status = #{status}
+    where vehicle_id = #{vehicleId}
+  </update>
+
+  <update id="setVehicleStatus">
+    update vehicle set status = #{status}
+    where vehicle_id = #{vehicleId}
+  </update>
+</mapper>

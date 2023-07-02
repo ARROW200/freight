@@ -17,7 +17,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/staff")
-@CrossOrigin
 public class StaffController {
     @Autowired
     private StaffService staffService;

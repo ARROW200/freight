@@ -5,14 +5,12 @@
 <mapper namespace="com.scu.freight.dao.StaffMapper">
   <select id="selectRows" resultType="Staff">
     select * from staff where status > 0
+    and staff_role = #{staffRole}
     <if test="staffId != null">
       and staff_id = #{staffId}
     </if>
     <if test="staffName != null">
       and staff_name = #{staffName}
-    </if>
-    <if test="staffRole != null">
-      and staff_role = #{staffRole}
     </if>
     order by staff_id desc
     limit #{startNo},#{pageSize}
@@ -20,6 +18,7 @@
 
   <select id="countRows" resultType="int">
     select count(1) from staff where status > 0
+    and staff_role = #{staffRole}
     <if test="staffId != null">
       and staff_id = #{staffId}
     </if>
@@ -40,7 +39,7 @@
 
   <select id="selectStaffById" resultType="Staff">
     select * from staff
-    where staff_id = #{recordId} and status > 0
+    where staff_id = #{staffId} and status > 0
   </select>
 
   <update id="updateStaff" parameterType="Staff">

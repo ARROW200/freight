@@ -17,7 +17,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/record")
-@CrossOrigin
 public class RecordController {
     @Autowired
     private RecordService recordService;

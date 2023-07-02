@@ -57,8 +57,10 @@
     </update>
 
     <insert id="updateUser" parameterType="User">
-        update user set username = #{username},
-        password = #{password}, user_role = #{userRole}
+        update user set username = #{username}, user_role = #{userRole}
+        <if test="password != null">
+            , password = #{password}
+        </if>
         where user_id = #{userId}
     </insert>
 
