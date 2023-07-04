@@ -36,6 +36,7 @@ public class UserService {
             redisTemplate.opsForValue().set(userKey,loginUser,30, TimeUnit.MINUTES);
 
             Map<String,Object> data = new HashMap<>();
+            data.put("role",loginUser.getUserRole());
             data.put("token",userKey);
             return data;
         }
@@ -68,6 +69,10 @@ public class UserService {
     }
 
     public int addUser(User user) {
+        int i = userMapper.countRows(null, user.getUsername(), null);
+        if (i > 0){
+            return 0;
+        }
         user.setPassword(FreightUtil.md5(user.getPassword()));
         return userMapper.insertUser(user);
     }

@@ -20,12 +20,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/test")
-    public String t(){
-        System.out.println("aaa");
-        return "dasdas";
-    }
-
     @PostMapping("/login")
     public Result<Map<String,Object>> login(@RequestBody User user){
         Map<String,Object> data = userService.login(user);
@@ -63,7 +57,7 @@ public class UserController {
     public Result<?> addUser(@RequestBody User user){
         int i = userService.addUser(user);
         if (i == 0){
-            return Result.fail(507,"添加用户失败");
+            return Result.fail(507,"用户名已存在，添加用户失败");
         }
         return Result.success("添加用户成功");
     }
